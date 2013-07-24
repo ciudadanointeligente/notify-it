@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+  - 2.0.0
+
+services: mongodb
+
+bundler_args: --local
+
+before_script:
+  - cp config/config.yml.example config/config.yml
+
+script: rake tests:all
+
+notifications:
+  email:
+    recipients:
+      - andrea.lvs@hotmail.com
+    on_success: change
+    on_failure: change

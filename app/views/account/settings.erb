@@ -1,0 +1,206 @@
+<div class="contentArea full user settings">
+  <div class="module allUserSettings">
+    <h2>Account Settings</h2>
+
+    <%= flash_for [:user] %>
+    <%= errors_for user %>
+
+    <form action="/account/settings" method="post">
+      <input type="hidden" name="_method" value="put" />
+
+      <div class="module user">
+        <ul>
+          <li class="email">
+            <label for="email">Email Address</label>
+            <input type="email" name="user[email]" value="<%= user.email %>" autocomplete="off" />
+          </li>
+
+          <li class="username">
+            <label for="username">Username (optional)</label>
+            <input type="text" name="user[username]" value="<%= user.username %>" autocomplete="off" />
+          </li>
+
+          <li class="display_name">
+            <label for="display_name">Display Name (optional)</label>
+            <input type="text" name="user[display_name]" value="<%= user.display_name %>" autocomplete="off" />
+          </li>
+
+          <small>
+            Your username and display name are only used if you publicly share your subscriptions.
+          </small>
+
+        </ul>
+      </div>
+
+      <%= flash_for [:password] %>
+
+      <div class="module passwordChange">
+        <ul>
+          <li class="password">
+            <label for="old_password">Old Password</label>
+            <input type="password" name="old_password" autocomplete="off" />
+          </li>
+          <li class="password">
+            <label for="password">New Password</label>
+            <input type="password" name="password" autocomplete="off" />
+          </li>
+          <li class="password">
+            <label for="password_confirmation">New Password (again)</label>
+            <input type="password" name="password_confirmation" autocomplete="off" />
+          </li>
+        </ul>
+      </div>
+      <div class="module updateSettings">
+        <button type="submit">
+            <span>Update Account Info</span>
+        </button>
+      </div>
+      <div class="clear"></div>
+    </form>
+  </div>
+
+  <div class="module allNotifications">
+    <div class="module notifications">
+      <h3>Email Notifications</h3>
+      <% if user.email.present? %>
+
+        <form action="/account/settings" method="post">
+          <input type="hidden" name="_method" value="put" />
+
+          <fieldset>
+
+            <legend>
+              We can email you about all the new things that you're following.
+              <small>You can also control this <a href="/account/subscriptions">per-subscription</a>.</small>
+            </legend>
+
+            <ul>
+              <li>
+                <label>
+                  <%= radio_button_tag "user[notifications]", checked: (user.notifications == "email_daily"), value: "email_daily" %>
+                  <span>Yes, once a day</span>
+                </label>
+
+                <label>
+                  <%= radio_button_tag "user[notifications]", checked: (user.notifications == "email_immediate"),value: "email_immediate" %>
+                  <span>Yes, immediately</span>
+                </label>
+
+                <label>
+                  <%= radio_button_tag "user[notifications]", checked: (user.notifications == "none"), value: "none" %>
+                  <span>No, thanks</span>
+                </label>
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <label for="user_announcements">
+              <%= check_box_tag "user[announcements]", checked: user.announcements?, uncheck_value: 'false', id: "user_announcements" %>
+              <span>Get updates about new Scout features</span>
+            </label>
+
+            <label for="sunlight_announcements">
+              <%= check_box_tag "user[sunlight_announcements]", checked: user.sunlight_announcements?, uncheck_value: 'false', id: "sunlight_announcements" %>
+              <span>Get updates about the Sunlight Foundation</span>
+            </label>
+          </fieldset>
+
+          <button type="submit">
+            <span>Submit Changes</span>
+          </button>
+
+        </form>
+
+      <% else %>
+        <p>
+          Enter an email address above to manage your email notification settings.
+        </p>
+      <% end %>
+
+    </div>
+
+    <div class="module phoneSettings">
+
+        <h3>SMS</h3>
+
+        <%= flash_for [:phone] %>
+
+        <div class="confirmed phone_settings">
+          <span>
+            <strong><%= user.phone %></strong> (Verified)
+          </span>
+          <a href="#" class="dismiss phone">
+            Change
+          </a>
+        </div>
+
+        <div class="unconfirmed phone_settings">
+          <span class="unverified">
+            <strong><%= user.phone %></strong> (Unverified)
+          </span>
+          <p>
+            To confirm your phone number, Enter the verification code we sent you.
+          </p>
+
+          <form class="phone verify" action="/account/phone/confirm" method="post">
+            <%= text_field_tag "phone_verify_code" %>
+            <button type="submit">
+              <span>Verify</span>
+            </button>
+          </form>
+
+          <form class="phone resend" action="/account/phone/resend" method="post">
+            <button type="submit">
+              <span>Resend</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="none phone_settings">
+          <p>
+            Enter a phone number below to turn on SMS notifications.
+          </p>
+          <p>
+            We'll send you a text message to confirm.
+          </p>
+
+          <form action="/account/phone" method="post">
+            <input type="hidden" name="_method" value="put" />
+
+            <label for="user_phone">Phone:</label>
+            <%= text_field_tag "user[phone]", value: user.phone %>
+
+            <button type="submit">
+              <span>Add Phone Number</span>
+            </button>
+          </form>
+
+          <small>
+            Standard text message charges may apply. Some subscriptions can generate a lot of results &mdash; be careful what you sign up for.
+          </small>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+
+        <% if user.phone.present? and user.phone_confirmed? %>
+            $(".phone_settings.confirmed").show();
+        <% elsif user.phone.present? %>
+            $(".phone_settings.unconfirmed").show();
+        <% else %>
+            $(".phone_settings.none").show();
+        <% end %>
+
+        $("a.dismiss.phone").click(function() {
+            $(".phone_settings.confirmed").hide();
+            $(".phone_settings.none").show();
+
+            return false;
+        });
+
+    });
+</script>

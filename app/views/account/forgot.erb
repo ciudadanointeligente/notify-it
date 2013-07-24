@@ -1,0 +1,15 @@
+<div class="settings login contentArea full">
+
+  <div class="module notifications">
+
+    <h3>Forgot your Password?</h3>
+    <form action="/account/password/forgot" method="post" class="signup_form">
+      <input class="redirect" name="redirect" type="hidden" value="<%= h params[:redirect] %>" />
+      <input class="email" type="email" placeholder="your email" name="email" />
+
+      <button class="text login">
+        <span>OK</span>
+      </button>
+    </form>
+  </div>
+</div>

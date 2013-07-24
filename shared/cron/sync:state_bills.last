@@ -1,0 +1,25 @@
+Asset syncing disabled, using local assets.
+
+[state_bills][sync][1] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=1&per_page=50
+
+
+[state_bills][sync][2] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=2&per_page=50
+
+
+[state_bills][sync][3] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=3&per_page=50
+
+
+[state_bills][sync][4] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=4&per_page=50
+
+
+[state_bills][sync][5] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=5&per_page=50
+
+
+[state_bills][sync][6] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=6&per_page=50
+
+
+[state_bills][sync][7] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=7&per_page=50
+
+
+[state_bills][sync][8] http://openstates.org/api/v1/bills/?apikey=dc477c17a37c4ccf842899859ea5bd87&fields=id,bill_id,subjects,state,chamber,created_at,updated_at,title,sources,versions,session,%2Bshort_title,action_dates,actions,votes&sort=last&last_action_since=2013-07-09T11:13:37&page=8&per_page=50
+

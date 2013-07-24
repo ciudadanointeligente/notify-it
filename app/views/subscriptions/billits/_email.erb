@@ -1,0 +1,13 @@
+<% bill = item.data %>
+
+<%= email_header bill['title'], url %>
+
+<%= email_subheader_div %>
+  <span class="date">
+    <%= just_date item.date %>
+  </span>
+</div>
+
+<%= email_content_p %>
+  <%= truncate item.data['current_urgency'], 500 %>
+</p>

@@ -1,0 +1,120 @@
+<% if title %>
+  <% content_for(:title) do %><%= title %> | Scout<% end %>
+  <% content_for :description do %>Live government activity and alerts on <%= title %>.<% end %>
+<% end %>
+
+<% content_for :head do %>
+  <link rel="stylesheet" href="<%= asset_path "/css/documents.css" %>" />
+  <% if item %>
+    <link rel="canonical" href="<%= landing_path item %>" />
+  <% end %>
+<% end %>
+
+<% content_for :sidebar_right do %>
+  <div class="module sharing">
+    <% if share.present? %>
+      <%= share %>
+    <% end %>
+  </div>
+
+  <% if show_data? %>
+    <div class="module developer json">
+      <h4>The Data</h4>
+      See the <a href="<%= developer_find_url item_type, item_id %>">underlying data</a>.
+    </div>
+  <% end %>
+
+  <div class="module data explanation">
+    <h4>Source</h4>
+    <%= partial "subscriptions/#{item_types[item_type]['adapter']}/data", :engine => "erb" %>
+  </div>
+<% end %>
+
+<main role="main" class="entry contentArea left <%= item_type %>" data-item_type="<%= item_type %>">
+
+  <%# hidden by default %>
+  <div class="loading">
+      <span>Fetching...</span>
+  </div>
+
+  <div class="error">
+      Error loading information. You can <a href="">try again.</a>
+  </div>
+
+
+  <%# shown by default %>
+  <div class="content">
+    <% if content.present? %>
+      <%= content %>
+    <% end %>
+  </div>
+
+</main>
+
+<% content_for :foot do %>
+
+<script>
+
+  var item_type = "<%= h item_type %>";
+  var item_id = "<%= h item_id %>";
+
+  var inline = <%= content.present? ? "true" : "false" %>;
+
+  $(inline ? onLoadContent : loadContent);
+
+  function loadContent() {
+    var container = $(".entry.contentArea");
+    container.find(".loading").show();
+    container.find(".content").hide();
+
+    $.get("/fetch" + window.location.pathname, {}, function(data) {
+      window.data = data;
+      container.find(".loading").hide();
+      container.find(".content").show().html(data.results);
+      $(".module.sharing").html(data.share);
+
+      onLoadContent();
+    }).error(function() {
+      container.find(".loading").hide();
+      container.find(".error").show();
+    });
+  }
+
+  function onLoadContent() {
+    <% if logged_in? %>
+      Button.initExistingUser(follow, unfollow);
+    <% else %>
+      Button.initNewUser();
+    <% end %>
+
+    <% if logged_in? and interest.new_record? and (params[:follow] == "now") %>
+      follow();
+    <% end %>
+
+    Utils.shareButtons();
+  }
+
+  function follow() {
+    Button.showFollowing();
+
+    $.post("/item/" + item_type + "/" + item_id + "/follow", function(data) {
+      Utils.log("Followed " + item_type + " " + item_id + ".");
+    }).error(function() {
+      Utils.log("ERROR following item.");
+      Button.showFollow();
+    });
+  }
+
+  function unfollow() {
+    Button.showFollow();
+
+    $.post("/item/" + item_type + "/" + item_id + "/unfollow", {_method: "delete"}, function(data) {
+      Utils.log("Unfollowed " + item_type + " " + item_id + ".");
+    }).error(function() {
+      Utils.log("ERROR unfollowing item.");
+      Button.showFollowing();
+    });
+  }
+</script>
+
+<% end %>

@@ -1,0 +1,52 @@
+######## Miscellaneous tasks ###########
+
+*/30 * * * * ~/projects/scout/config/cron/production/rake.sh subscriptions:reinitialize
+
+# post-midnight, email a report of Google's crawling activity
+0 6 * * * ~/projects/scout/config/cron/production/rake.sh analytics:google
+
+# on Monday morning, email about last week's user activity for OS and Scout
+0 6 * * 1 ~/projects/scout/config/cron/production/rake.sh analytics:weekly service=scout
+0 6 * * 1 ~/projects/scout/config/cron/production/rake.sh analytics:weekly service=open_states
+
+
+######## Sync and sitemap tasks #################
+
+# update latest info every night and generate a sitemap
+
+30 13 * * * ~/projects/scout/config/cron/production/rake.sh sync:billits && ~/projects/scout/config/cron/production/rake.sh sitemap
+
+######## Delivery tasks ########
+
+# email digests - once a day, in the morning, 8am/9am EST/EDT
+0 13 * * * ~/projects/scout/config/cron/production/deliver.sh email_daily
+
+# immediate emails - throughout the day, every 10 minutes
+*/10 * * * *  ~/projects/scout/config/cron/production/deliver.sh email_immediate
+
+# SMS messages - throughout the day, every 10 minutes
+*/10 * * * * ~/projects/scout/config/cron/production/deliver.sh sms
+
+
+######## Polling tasks  #########
+
+
+### keyword search subscriptions
+
+# billits- twice daily
+0 11,18 * * *  ~/projects/scout/config/cron/production/check.sh billits rate_limit=0
+
+
+# item-specific subscriptions
+
+# activity on billits - daily, bounded by THOMAS
+0 8,14 * * *  ~/projects/scout/config/cron/production/check.sh billits_activity
+
+# urgencies on billits - daily, bounded by THOMAS
+0 8,14 * * *  ~/projects/scout/config/cron/production/check.sh billits_urgencies
+
+# external feed subscriptions, once an hour
+0 * * * * ~/projects/scout/config/cron/production/check.sh feed
+
+
+# keep the newline below

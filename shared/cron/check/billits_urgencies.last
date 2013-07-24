@@ -1,0 +1,173 @@
+<time>
+2013-07-23 14:45:53 -0400
+</time>
+<time>
+2013-07-23 14:45:53 -0400
+</time>
+Asset syncing disabled, using local assets.
+Clearing all caches for billits_urgencies...
+This is the email (if any): 
+<subscription>
+#<Subscription:0x00000104148ef8>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x000001041b0c38>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][7907-04][51e85a5075dcbe3e480000d1] http://billit.ciudadanointeligente.org/bills/search.json?uid=7907-04
+
+<results>
+true
+</results>
+sleeping for 0.1
+<subscription>
+#<Subscription:0x00000101f74778>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x00000104281a18>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][7748-04][51ed5e4f75dcbe3e48000295] http://billit.ciudadanointeligente.org/bills/search.json?uid=7748-04
+
+<results>
+true
+</results>
+sleeping for 0.1
+<subscription>
+#<Subscription:0x00000101fa7420>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x00000101fc6de8>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][7753-19][51edbc3875dcbeedf300005c] http://billit.ciudadanointeligente.org/bills/search.json?uid=7753-19
+
+<results>
+true
+</results>
+sleeping for 0.1
+<subscription>
+#<Subscription:0x000001042b0ac0>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x000001042d84a8>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+#<SeenItem:0x000001042fb2a0>
+#<SeenItem:0x000001042faff8>
+#<SeenItem:0x000001042fad50>
+#<SeenItem:0x000001042faa08>
+#<SeenItem:0x000001042fa788>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][8767-06][51ed5f0675dcbe3e4800029d] http://billit.ciudadanointeligente.org/bills/search.json?uid=8767-06
+
+<results>
+#<SeenItem:0x00000104341390>
+#<SeenItem:0x0000010434a260>
+#<SeenItem:0x00000104353018>
+#<SeenItem:0x0000010435bcb8>
+#<SeenItem:0x00000104358b08>
+true
+</results>
+sleeping for 0.1
+<subscription>
+#<Subscription:0x00000105070160>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x000001050bbc28>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+#<SeenItem:0x000001050c00c0>
+#<SeenItem:0x000001050cbf38>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][1225-10][51ed625175dcbe3e480002e4] http://billit.ciudadanointeligente.org/bills/search.json?uid=1225-10
+
+<results>
+#<SeenItem:0x00000101a0c998>
+#<SeenItem:0x00000101a14a08>
+true
+</results>
+sleeping for 0.1
+<subscription>
+#<Subscription:0x00000101d94278>
+</subscription>
+<dry_run>
+false
+</dry_run>
+<interest>
+#<Interest:0x00000101e5a9c8>
+</interest>
+<subscription_type>
+billits_urgencies
+</subscription_type>
+<subscription_seen>
+</subscription_seen>
+<following_interests>
+</following_interests>
+<backfills>
+</backfills>
+
+[billits_urgencies][check][7753-19][51eeb4f675dcbe4ef5000142] http://billit.ciudadanointeligente.org/bills/search.json?uid=7753-19
+
+<results>
+true
+</results>
+sleeping for 0.1

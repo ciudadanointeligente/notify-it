@@ -1,0 +1,9 @@
+<%= email_header item.data['title'], url %>
+
+<%= email_subheader_div %>
+  <%= just_date item.date %>
+</div>
+
+<%= email_content_p %>
+  <%= truncate item.data['content'], 500 %>
+</p>

@@ -1,0 +1,19 @@
+<% bill = item.data %>
+
+<a href="<%= item_path item %>">
+  <h4>
+  	<%= bill['title'] %>
+  </h4>
+</a>
+
+<div class="subtitle">
+  <%= bill['stage'] %>
+</div>
+
+<p>
+ <% if bill['current_urgency'].present? %>
+    <%= truncate bill['current_urgency'], 500 %>
+  <% else %>
+    No excerpt or abstract available.
+  <% end %>
+</p>

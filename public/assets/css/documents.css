@@ -1,0 +1,160 @@
+/** document viewer **/
+
+/*.entry {
+    width: 960px;
+}
+*/
+
+.entry #document {
+  float: left;
+  width: 700px;
+}
+
+.entry.regulation #document article {padding-top: 0px;}
+
+.entry.bill #document article,
+.entry.speech #document article,
+.entry.document #document article,
+.entry.regulation #document article.text {
+  color: #111;
+}
+
+.entry.speech #document article p,
+.entry.document #document article p {
+  line-height: 22px;
+}
+
+
+/** federal register documents **/
+
+.entry.regulation article {}
+
+.entry.regulation article h1,
+.entry.regulation article h2,
+.entry.regulation article h3,
+.entry.regulation article h4,
+.entry.regulation article h5,
+.entry.regulation article h6 {
+  font-family: arial, 'helvetica Neue', sans-serif;
+  color: #111; font-weight: bold;
+}
+
+.entry.regulation article h1,
+.entry.regulation article h2,
+.entry.regulation article h3 {
+  text-transform: none; font-size: 12pt;
+}
+
+.entry.regulation article h4 {
+  text-transform: none; font-size: 10pt;
+}
+
+.entry.regulation article .header_column {margin-bottom: 10px;}
+.entry.regulation article .body_column {margin-bottom: 20px;}
+.entry.regulation article .body_column p {margin-bottom: 12px; line-height: 24px;}
+
+.entry.regulation article .table_of_contents {display: none;}
+.entry.regulation article .toc-hidden {margin-left: 20px; margin-top: 10px; color: #888; }
+.entry.regulation article .toc-hidden a {color: #888; margin-left: 7px;}
+.entry.regulation article .document_details {display: none;}
+.entry.regulation article .signature {display: none;}
+.entry.regulation article a.back_to_top,
+.entry.regulation article a.back_to_table_index {display: none;}
+
+.entry.regulation article table {border-spacing: 5px; border-collapse: separate;}
+.entry.regulation article table td {padding-bottom: 5px;}
+.entry.regulation article table caption {margin-bottom: 5px; font-weight: bold;}
+
+.entry.regulation article .subject_list {padding: 10px 20px;}
+
+.entry.regulation article ul.bullets,
+.entry.regulation article ul.bullets li {list-style-type: disc; list-style-position: outside;}
+.entry.regulation article ul.bullets {padding: 0 30px;}
+.entry.regulation article ul.bullets li {margin-bottom: 10px; margin-top: 10px;}
+
+.entry.regulation article .reg_text {}
+
+.entry.regulation article .reg_text h1,
+.entry.regulation article .reg_text h2,
+.entry.regulation article .reg_text h3,
+.entry.regulation article .reg_text h4,
+.entry.regulation article .reg_text h5,
+.entry.regulation article .reg_text h6 {font-size: 10pt;}
+
+.entry.regulation article .reg_text h1,
+.entry.regulation article .reg_text h2,
+.entry.regulation article .reg_text h3,
+.entry.regulation article .reg_text h4,
+.entry.regulation article .reg_text h5,
+.entry.regulation article .reg_text h6,
+.entry.regulation article .reg_text p,
+.entry.regulation article .reg_text .contents {margin-top: 0; margin-bottom: 15px;}
+.entry.regulation article .reg_text .divider {display: none;}
+.entry.regulation article .reg_text .contents {background-color: #eeeeee; padding: 10px;}
+
+
+/** federal bills **/
+
+/* general */
+
+.entry.bill #document .enum {margin-right: 3px;}
+
+.entry.bill #document .form,
+.entry.bill #document .amendment-form,
+.entry.bill #document .engrossed-amendment-form,
+.entry.bill #document .resolution-form {display: none;}
+
+.entry.bill #document .toc-entry,
+.entry.bill #document .section,
+.entry.bill #document .subsection,
+.entry.bill #document .subchapter,
+.entry.bill #document .paragraph,
+.entry.bill #document .quoted-block,
+.entry.bill #document .subparagraph {margin-top: 13px; margin-bottom: 13px;}
+
+.entry.bill #document .quote:before,
+.entry.bill #document .quote:after {content: "\"";}
+
+.entry.bill #document .section:first-child {margin-top: 0;}
+
+.entry.bill #document .subsection,
+.entry.bill #document .subchapter,
+.entry.bill #document .paragraph,
+.entry.bill #document .subparagraph {margin-left: 20px;}
+
+.entry.bill #document .quoted-block {font-style: italic; padding-left: 20px;}
+.entry.bill #document .quoted-block>*:first-child {display: inline;}
+.entry.bill #document .after-quoted-block {display: none;}
+
+
+.entry.bill #document {font-size: 10pt; line-height: 28px;}
+
+.entry.bill #document .toc {display: none;}
+.entry.bill #document .toc-hidden {margin-left: 20px; color: #888; }
+.entry.bill #document .toc-hidden a {color: #888; margin-left: 7px;}
+
+/* hierarchy-specific */
+
+.entry.bill #document .section {margin-bottom: 20px;}
+.entry.bill #document .section>.enum:before {content: "Sec ";}
+.entry.bill #document .section>.enum,
+.entry.bill #document .section>.header {
+  font-weight: bold; font-size: 10pt;
+}
+.entry.bill #document .section>.enum {margin-right: 10px;}
+.entry.bill #document .section>.enum+.header+* {display: block;}
+
+.entry.bill #document .title {margin-bottom: 25px;}
+.entry.bill #document .title>.enum:before {content: "Title ";}
+.entry.bill #document .title>.enum:after {content: " — ";}
+
+.entry.bill #document .title>.header,
+.entry.bill #document .title>.enum {
+  font-weight: bold; font-size: 14pt; font-variant: small-caps;
+}
+.entry.bill #document .title>.header:after {content: "";}
+
+.entry.bill #document .header:after {content: " — ";}
+.entry.bill #document .section>.header:after {content: "";}
+
+.entry.bill #document .attestation {display: none;}

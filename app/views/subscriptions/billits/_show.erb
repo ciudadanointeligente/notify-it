@@ -1,0 +1,61 @@
+<% bill = item.data %>
+
+<div class="followChanges">
+  <div class="trackSubscribe" style="margin-top: 16px">
+    Subscribe to any <strong>official activity</strong> or <strong>votes</strong> on this bill.
+  </div>
+
+    <%= follow_item interest %>
+
+    <div class="clear"></div>
+</div>
+
+<div class="summary">
+
+  <div class="entryHeader">
+    <h2><%= bill['title'] %></h2>
+  </div>
+
+  <div class="clear"></div>
+
+    <div class="subtitle">
+      <%= bill['current_urgency'] %>
+      &mdash;
+      <% if bill['action_dates'] and bill['action_dates']['last'] %>
+        <% date = bill['action_dates']['last'] %>
+        <% if date < Time.zone.now %>
+          Last activity on
+        <% else %>
+          Next activity on
+        <% end %>
+      <% else %>
+        <% date = bill['creation_date'] %>
+        Information first discovered on
+      <% end %>
+      <time class="item" datetime="<%= html_date date %>">
+        <%= just_date_year date %>
+      </time>
+    </div>
+
+</div>
+
+<div class="core-context">
+
+    <% if bill['events'] and bill['events'].any? %>
+      <dl>
+        <dt class="float-left">Recent activity</dt>
+        <dd>
+          <ul>
+            <% bill['events'].reverse.each_with_index do |event, i| %>
+              <li class="<%= i == 0 ? "first" : "first" %>">
+                <%= just_date_year event['date'] %> &mdash;
+                <%= truncate event['description'], 500 %>
+              </li>
+            <% end %>
+
+          
+          </ul>
+        </dd>
+      </dl>
+    <% end %>
+  </div>

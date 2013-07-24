@@ -1,0 +1,225 @@
+<!doctype html>
+
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ie"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ie"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8 ie"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="ie9 ie"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en"> <!--<![endif]-->
+<head>
+    <script>var _sf_startpt=(new Date()).getTime();</script>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="5EhJ93mPwaiWioTBlDqRtVwFZhwteGQ-7ysCs-hlUxI" />
+
+    <meta property="og:image" content="https://scout.sunlightfoundation.com/favicon.ico" />
+
+    <% if content_for?(:title) %>
+      <title><%= yield_content :title %></title>
+    <% else %>
+      <title>Scout</title>
+    <% end %>
+
+    <% if content_for?(:description) %>
+      <meta property="og:description" content="<%= escape_javascript yield_content(:description) %>" />
+    <% else %>
+      <meta property="og:description" content="Live government activity and alerts, by the Sunlight Foundation." />
+    <% end %>
+
+    <!-- my CSS, plus any page-specific CSS -->
+
+    <link rel="stylesheet" href="<%= asset_path "/css/html5-reset.css" %>" />
+    <link rel="stylesheet" href="<%= asset_path "/css/main.css?#{Time.now.to_i}" %>" />
+
+    <%= yield_content :head %>
+
+    <script src="<%= asset_path "/js/jquery-2.0.0.min.js" %>"></script>
+</head>
+<body>
+
+    <div class="headerWrapper">
+      <div class="hatWrap">
+        <div class="contentWrapper">
+          <a class="productOf" href="http://sunlightfoundation.com">
+            a product of Sunlight Foundation
+          </a>
+        </div>
+      </div>
+
+      <% if content_for?(:home) %>
+        <div class="homeWrapper">
+      <% else %>
+        <!-- not home -->
+      <% end %>
+
+      <header class="contentWrapper">
+        <nav>
+          <ul id="userNav">
+            <% if logged_in? %>
+              <li class="user">
+                <%= user_contact current_user %>
+              </li>
+              <li class="subscriptions">
+                <a href="/account/subscriptions">
+                  Manage Alerts
+                </a>
+              </li>
+              <li class="settings">
+                <a href="/account/settings">Settings</a>
+              </li>
+              <li class="feedback">
+                <a href="mailto:scout+contact@sunlightfoundation.com" class="feedback">Contact</a>
+              </li>
+              <li>
+                <a href="/logout" class="logout">Log Out</a>
+              </li>
+            <% else %>
+              <li class="feedback">
+                <a href="mailto:scout+contact@sunlightfoundation.com" class="feedback">Contact</a>
+              </li>
+              <li>
+                <a href="/login" class="login">Login or Sign up</a>
+              </li>
+            <% end %>
+          </ul>
+          <% if logged_in? and !current_user.confirmed? %>
+            <div class="should_change_password clear">
+              <span>Your account is unconfirmed.</span> Use the confirmation link in your email, or <a href="/account/confirm/resend">have us resend it</a>.
+            </div>
+          <% elsif logged_in? and current_user.should_change_password? %>
+            <% paths = ["/account/settings", "/account/welcome"] %>
+            <% unless paths.any? {|path| request.path =~ /^#{path}/} %>
+              <div class="should_change_password clear">
+                You should <a href="/account/settings">change your password</a>.
+              </div>
+            <% end %>
+          <% end %>
+        </nav>
+
+        <div class="clear"></div>
+
+        <a href="/">
+          <h1 class="textIndent">Scout</h1>
+        </a>
+
+        <% if content_for?(:home) %>
+        <p class="splashtext">
+          Get alerts when congress or your state capitol talks about issues you care about
+        </p>
+        <% end %>
+
+        <%= partial "search/search", :engine => "erb", :locals => {} %>
+
+        <div class="clear"></div>
+      </header>
+
+      <% if content_for?(:home) %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="fauxBody">
+      <div class="contentWrapper" id="content">
+        <% if content_for?(:sidebar_left) %>
+          <div class="sidebar left">
+            <%= yield_content :sidebar_left %>
+          </div>
+        <% end %>
+
+        <div id="center">
+          <%= yield %>
+        </div>
+
+        <% if content_for?(:sidebar_right) %>
+          <div class="sidebar right">
+            <%= yield_content :sidebar_right %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="footerWrapper">
+      <footer class="contentWrapper">
+        <a href="http://sunlightfoundation.com" class="sunlightFoundation textIndent">
+          Sunlight Foundation
+        </a>
+
+        <div class="aboutSF">
+          <p>
+            Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable.
+          </p>
+          <p>
+            Visit <a href="http://sunlightfoundation.com">SunlightFoundation.com</a> to learn more.
+          </p>
+        </div>
+
+        <nav>
+          <a href="/about">About</a>
+        </nav>
+
+        <div class="clear"></div>
+      </footer>
+    </div>
+
+    <!-- lots of javascript... -->
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-22821126-16']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+    <script type="text/javascript">
+    var _sf_async_config={uid:980,domain:"scout.sunlightfoundation.com"};
+    (function(){
+      function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e = document.createElement('script');
+        e.setAttribute('language', 'javascript');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute('src',
+           (("https:" == document.location.protocol) ? "https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/" : "http://static.chartbeat.com/") +
+           "js/chartbeat.js");
+        document.body.appendChild(e);
+      }
+      var oldonload = window.onload;
+      window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
+    })();
+    </script>
+
+    <!-- typekit -->
+    <script type="text/javascript">
+      (function() {
+        var config = {
+          kitId: 'bsl1eko',
+          scriptTimeout: 3000
+        };
+        var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+      })();
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="<%= asset_path "/js/html5.js" %>"></script>
+    <script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+
+
+    <script src="<%= asset_path "/js/jquery.pjax.js" %>"></script>
+    <script src="<%= asset_path "/js/h5f.min.js" %>"></script>
+    <script src="<%= asset_path "/js/main.js" %>"></script>
+
+    <script type="text/javascript" src="https://s3.amazonaws.com/assets.sunlightfoundation.com/social/scripts/simple-socialite-pack.min.js.gz" ></script>
+
+    <%= yield_content :foot %>
+
+</body>
+</html>

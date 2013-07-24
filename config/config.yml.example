@@ -1,0 +1,100 @@
+subscriptions:
+  # fill in with your own Sunlight API key
+  sunlight_api_key:
+
+# used to generate full URLs in emails
+hostname: "http://localhost:8080"
+
+# fill in with some unique string per-deployment
+session_secret: change-this-to-something-else
+
+# set to true to turn off caching of remote content (useful for development)
+no_cache: true
+
+# asset hosting on S3, sync with rake assets:sync
+assets:
+  enabled: false # turn on in production
+  asset_host: # URL to put before assets
+  s3:
+    bucket:
+    access_key:
+    secret_key:
+
+
+# email details
+email:
+  via: pony
+  from:
+  reply_to:
+
+  pony:
+    # Can be passed directly into Pony
+    via: smtp
+    via_options:
+      address:
+      port:
+      user_name:
+      password:
+      authentication: plain
+      domain:
+      enable_starttls_auto: false
+
+  postmark:
+    api_key:
+
+# SMS details
+twilio:
+  account_sid:
+  auth_token:
+  from: # phone number
+
+# outputs polled URLs to STDOUT
+debug:
+  output_urls: true
+
+# a Sunlight API key, separate from the key used to do most searches/polling,
+# that will be used in links to data URLs that require one, if data demo mode is on
+demo_key:
+
+# set of emails to receive admin notices
+admin:
+  -
+
+# set of emails to receive analytics reports
+analytics:
+  -
+
+# Mongoid details
+mongoid:
+  development:
+    sessions:
+      default:
+        database: scout_development
+        hosts:
+          - "localhost:27017"
+        options:
+          safe: true
+    options:
+      raise_not_found_error: false
+
+  production:
+    sessions:
+      default:
+        database: scout
+        hosts:
+          - "localhost:27017"
+        options:
+          safe: true
+    options:
+      raise_not_found_error: false
+
+  test:
+    sessions:
+      default:
+        database: scout_test
+        hosts:
+          - "localhost:27017"
+        options:
+          safe: true
+    options:
+      raise_not_found_error: false

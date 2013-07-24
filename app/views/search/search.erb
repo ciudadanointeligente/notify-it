@@ -1,0 +1,569 @@
+<% unless pjax? %>
+  <% content_for :title do %><%= title %><% end %>
+
+  <% if interest.query['citations'].any? %>
+    <% content_for :description do %>Live government activity and alerts on <%= Search.cite_standard interest.query['citations'].first %>.<% end %>
+  <% end %>
+
+  <% content_for :sidebar_left do %>
+   	<div class="module controls">
+  		<h4>Filter search results</h4>
+  		<ul class="categories">
+        <li
+          class="all <%= subscription ? "" : "current" %>"
+          data-subscription_type="all"
+          >
+          <a data-pjax="#center" href="#">
+            Everything
+          </a>
+        </li>
+
+	      <% search_types.each do |subscription_type| %>
+	        <li
+            class="<%= subscription_type %> <%= subscription_type == interest.search_type ? "current" : "" %>"
+            data-subscription_type="<%= subscription_type %>"
+            style="display: none"
+            >
+	          <a data-pjax="#center" href="#">
+	            <%= Subscription.adapter_for(subscription_type).search_name nil %>
+	          </a>
+	        </li>
+	      <% end %>
+	    </ul>
+
+      <div class="filters">
+        <form>
+
+    	    <%= hidden_field_tag :query, :class => "query" %>
+          <%= hidden_field_tag :query_type, :class => "query_type" %>
+    	    <%= hidden_field_tag :subscription_type, :class => "subscription_type" %>
+
+          <% search_types.each do |subscription_type| %>
+            <ul
+              class="filter_controls <%= subscription_type %>"
+              data-subscription_type="<%= subscription_type %>"
+              >
+              <%= partial "subscriptions/#{subscription_type}/filter", :engine => "erb" %>
+            </ul>
+          <% end %>
+
+        </form>
+  		</div>
+
+      <% if logged_in? %>
+        <div class="subscriptions related">
+            <!-- will be filled in dynamically -->
+        </div>
+      <% end %>
+
+  	</div>
+
+    <% if show_data? %>
+      <div class="module developer search json">
+    		<h4>The Data</h4>
+    		<p>
+    			See the <a href="#">underlying data</a>.
+    		</p>
+      </div>
+    <% end %>
+
+    <div class="module data explanation">
+      <h4>Sources</h4>
+
+      <div class="all">
+        <p>
+          Data comes from a variety of sources. Select a category or search result for more information.
+        </p>
+      </div>
+
+      <% search_types.each do |subscription_type| %>
+        <div class="<%= subscription_type %>">
+          <%= partial "subscriptions/#{subscription_type}/data", :engine => "erb" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<main role="main" class="results contentArea right <%= interest.search_type == "all" ? "" : "single" %>">
+  <div class="resultsHeader">
+
+    <div class="pageTitle">
+      <div class="searchParameters <%= interest.query_type %>">
+        <% if interest.query_type == "simple" %>
+          <% if interest.query['citations'].any? %>
+            <% citation = interest.query['citations'].first %>
+            <h2 class="smaller">
+              <span class="citing">citing:</span>
+              <%= Search.cite_standard citation %>
+            </h2>
+            <% if match = Citation.where(citation_id: citation['citation_id']).first %>
+              <p class="cite">
+                <%= cite_description match %>
+                (<a href="<%= cite_link citation %>" target="_blank">full text</a>)
+              </p>
+            <% end %>
+          <% else %>
+            <% name = interest_name interest %>
+            <h2 class="<%= query_size name %>">
+              <%= h name %>
+            </h2>
+          <% end %>
+        <% elsif interest.query_type == "advanced" %>
+          <% if interest.query['advanced'] %>
+            <% citations = interest.query['citations'] %>
+            <% included = interest.query['advanced']['included'] %>
+            <% distance = interest.query['advanced']['distance'] %>
+            <% excluded = interest.query['advanced']['excluded'] %>
+
+            <% if citations.any? %>
+              <div class="advanced citations">
+                <h2>Citing:</h2>
+                <div class="container">
+                  <span>
+                    <%= citations.map {|cite| Search.cite_standard cite}.join ", " %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+
+            <% if included.any? %>
+              <div class="advanced included">
+                <h2>With Terms:</h2>
+                <div class="container">
+                  <span>
+                    <%= included.map {|term| term['term']}.join ", " %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+
+            <% if distance.any? %>
+              <div class="advanced distance">
+                <h2>With Nearby Terms:</h2>
+                <% distance.map do |distance| %>
+                  <div class="container">
+                    <span class="terms">
+                      <%= distance['words'].join(", ") %>
+                    </span>
+                    <span class="n">
+                      within <%= distance['distance'] %> words
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if excluded.any? %>
+              <div class="advanced excluded">
+                <h2>Excluding Terms:</h2>
+                <div class="container">
+                  <span>
+                    <%= excluded.map {|term| term['term']}.join ", " %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+
+          <% else %>
+            <div class="advanced">
+              <h2>Search For:</h2>
+              <div class="container">
+                <span>
+                  <%= interest_name interest %>
+                </span>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+        <% if interest.search_type == "all" %>
+          <!-- nothing -->
+        <% else %>
+          in
+          <span class="category">
+            <%= subscription.search_name %>
+          </span>
+
+          <% if subscription.filters.any? %>
+  			    <div class="filters">
+              <%= subscription.filters.map do |field, value|
+                "<span>#{subscription.filter_name field, value}</span>"
+              end.join(", ") %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <%= follow_search interest %>
+
+      <div class="clear"></div>
+  	</div>
+
+
+    <div class="resultsIntro">
+      <p>
+        <% if interest.new_record? %>
+          Create an alert to receive notifications of more results like these.
+        <% else %>
+          You are receiving notifications for these results.
+        <% end %>
+      </p>
+      <!-- <span style="display: none" id="share-title"><%= interest_name(interest) %></span> -->
+
+      <%# partial "partials/share", engine: :erb %>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+
+  <% subscriptions.each do |s| %>
+    <div class="search" id="<%= s.subscription_type %>" data-subscription="<%= s.subscription_type %>">
+
+      <div class="section container clear">
+
+        <% unless subscription %>
+          <h3><%= s.search_name %></h3>
+        <% end %>
+
+        <!-- page parameter gets stored as data on ul.items -->
+        <ul class="items <%= s.subscription_type %>">
+          <!-- pages of data appended into here -->
+
+          <% if cached[s.subscription_type].present? %>
+            <%= cached[s.subscription_type] %>
+          <% end %>
+        </ul>
+
+        <div class="loading">
+          <span>Fetching <%= s.search_name %>...</span>
+        </div>
+
+        <div class="empty">
+          <span>No results.</span>
+        </div>
+
+        <div class="error">
+          <span>There was an error while searching.</span>
+        </div>
+
+        <% unless subscription %>
+          <a href="<%= subscription_path s %>" class="viewMore" data-pjax="#center">
+            View more <span><%= s.search_name %></span>
+          </a>
+          <div class="clear"></div>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+
+</main>
+
+<div class="clear"></div>
+
+<!-- hidden, used to populate contents of sidebar dynamically -->
+<% if logged_in? and related_interests and related_interests.any? %>
+  <div class="template subscriptions related">
+    <%= partial "search/related_interests", :engine => :erb, :locals => {
+      related_interests: related_interests,
+      current_interest: interest,
+      interest_in: interest.in
+    } %>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+
+  var cached = {
+    <% keys = cached.keys %>
+    <% keys.each do |key| %>
+      "<%= key %>": <%= cached[key].present? ? "true" : "false" %><%= "," unless key == keys.last %>
+    <% end %>
+  };
+
+  $(function() {
+    <% if !pjax? %> // run only once
+      initializeControls();
+    <% end %>
+
+    initializeSubscriptions();
+
+    <% if logged_in? and (params[:follow] == "now") and interest.new_record? %>
+      follow();
+    <% end %>
+
+    // only use cached content on page initialization.
+    // if filters are added or changed, ignore the cached keys
+    <% subscriptions.each do |subscription| %>
+      var subscription_type = "<%= h subscription.subscription_type %>";
+      if (cached[subscription_type])
+        cachedSearch(subscription_type);
+      else
+        search(subscription_type);
+    <% end %>
+  });
+
+
+  function initializeControls() {
+    // set up the filter events (only needs to happen once)
+    $(".filters .filter_control").change(goToSearch);
+  }
+
+  function initializeSubscriptions() {
+    // Utils.shareButtons();
+
+    var initialQuery = "<%= escape_javascript query %>";
+    var initialQueryType = "<%= escape_javascript(params[:query_type] || "simple") %>";
+    $(".filters input.query").val(initialQuery);
+    $(".filters input.query_type").val(initialQueryType);
+    $(".filters input.subscription_type").val("<%= h interest.search_type %>");
+
+    document.title = "<%= escape_javascript title %>";
+
+    // update search form
+    $("#search_form input.query").val(initialQuery);
+    $(".query_type input[type=radio][name=query_type][value=" + initialQueryType + "]").attr("checked", true);
+
+
+    var subscriptionType = currentSubscriptionType();
+    var query = currentQuery();
+    var queryType = currentQueryType();
+
+    // update the main filter links
+    $("ul.categories li a").each(function(i, elem) {
+      var type = $(elem).parent("li").data("subscription_type");
+
+      var url = "/search/" + type + "/" + encodeURIComponent(query);
+
+      if (queryType == "advanced")
+        url += "/advanced";
+
+      $(elem).attr("href", url);
+    });
+
+    // hide category types not appropriate for this kind of search
+    $("ul.categories li").hide();
+    $("ul.categories li.all").show();
+    <% (interest.query['citations'].any? ? cite_types : search_types).each do |subscription_type| %>
+      $("ul.categories li[data-subscription_type='<%= subscription_type %>']").show()
+    <% end %>
+
+    <% if logged_in? %>
+      Button.initExistingUser(follow, unfollow);
+    <% else %>
+      Button.initNewUser();
+    <% end %>
+
+
+    // category filters
+    $("ul.categories li").removeClass("current");
+    $("ul.categories li." + subscriptionType).addClass("current");
+
+
+    // reset all field filters, set to selected subscription's values
+    $(".filters .filter_control").val("");
+
+    <% if subscription %>
+      <% subscription.filters.each do |key, value| %>
+        $(".filters input[name=<%= key %>], .filters select[name=<%=key %>]").val("<%= value %>");
+      <% end %>
+    <% end %>
+
+
+    // show the field filter pane for the selected subscription
+
+    $(".filters ,.filters ul").hide();
+    <% if subscription %>
+      $(".filters, .filters ul." + subscriptionType).show();
+    <% end %>
+
+    $(".sidebar .subscriptions.related").hide();
+    <% if related_interests and related_interests.any? %>
+      loadInterestPane($(".subscriptions.related.template").html());
+    <% end %>
+
+    // show the data description pane for the selected subscription
+    $(".data div").hide();
+    $(".data div." + subscriptionType).show();
+
+    <% if show_data? %>
+      $(".developer").hide();
+      <% if subscription %>
+        $(".developer").show();
+        $(".developer a").attr("href", "<%= developer_search_url subscription %>");
+      <% end %>
+    <% end %>
+  }
+
+  function goToSearch() {
+    var type = currentSubscriptionType();
+    var queryType = currentQueryType();
+    var query = encodeURIComponent(currentQuery());
+    var filters = currentFilters();
+
+    // serialize the filters and preserve the brackets
+    var filterString = $.param(filters).replace(/%5B/g, "[").replace(/%5D/g, "]");
+    var url = "/search/" + type + "/" + query;
+
+    if (queryType == "advanced")
+      url += "/advanced";
+
+    if (filterString) url += "?" + filterString;
+
+    Utils.pjax(url, "#center");
+  }
+
+  function currentFilters() {
+    var type = currentSubscriptionType();
+    var filters = {};
+    filters[type] = {};
+
+    $(".filters ul." + type + " .filter_control").each(function(i, element) {
+      var value = $(element).val();
+      if (value) // don't pass along empty strings
+        filters[type][$(element).attr("name")] = value;
+    });
+
+    return filters;
+  }
+
+  function currentQuery() {
+    var query = $(".filters input.query").val();
+    if (currentQueryType() == "simple")
+      query = query.replace(/\"/g, '');
+    return query;
+  }
+
+  function currentQueryType() {
+    return $(".filters input.query_type").val();
+  }
+
+  function currentSubscriptionType() {
+    return $(".filters input.subscription_type").val();
+  }
+
+  function loadInterestPane(html) {
+    $(".sidebar .subscriptions.related").show().html(html);
+  }
+
+  function follow() {
+    Button.showFollowing();
+
+    var subscription_type = currentSubscriptionType();
+    var query = encodeURIComponent(currentQuery());
+    var queryType = currentQueryType();
+    var filters = currentFilters();
+
+    var subscription = $.extend(filters, {
+      search_type: subscription_type,
+      query: query,
+      query_type: queryType
+    });
+
+    $.post("/interests/search", subscription, function(data) {
+      Utils.log("Created new search interest.");
+      loadInterestPane(data.interest_pane);
+    }).error(function() {
+      Utils.log("ERROR creating new search interest.");
+      Button.showFollow();
+    });
+  }
+
+  function unfollow() {
+    Button.showFollow();
+
+    var subscription_type = currentSubscriptionType();
+    var query = encodeURIComponent(currentQuery());
+    var queryType = currentQueryType();
+    var filters = currentFilters();
+
+    var subscription = $.extend(filters, {
+      search_type: subscription_type,
+      query: query,
+      query_type: queryType
+    });
+
+    $.post("/interests/search", $.extend(subscription, {_method: "delete"}), function(data) {
+      Utils.log("Removed search interest.");
+      loadInterestPane(data.interest_pane);
+    }).error(function() {
+      Utils.log("ERROR removing search interest.");
+      Button.showFollowing();
+    });
+  }
+
+  function search(subscriptionType, searchOptions) {
+    if (!searchOptions) searchOptions = {};
+    if (!searchOptions.per_page) searchOptions.per_page = <%= subscription ? 20 : 2 %>;
+    if (!searchOptions.page) searchOptions.page = 1;
+
+    var query = encodeURIComponent(currentQuery());
+    var queryType = currentQueryType();
+    var container = $(".results div.search[data-subscription=" + subscriptionType + "]");
+
+    // all search options (filters, pagination)
+    var search = {};
+
+    // carry along the filters
+    $.extend(search, currentFilters());
+
+    // any one-time search options (pagination)
+    $.extend(search, searchOptions);
+
+    // reset elements inside tab
+    // if (searchOptions.page == 1)
+      // container.find("ul.items").hide();
+
+    container.find(".loading").show();
+
+    var url = "/fetch/search/" + subscriptionType + "/" + query;
+    if (queryType == "advanced")
+      url += "/advanced";
+
+    $.get(url, search, function(data) {
+
+      container.find(".loading").hide();
+      container.find("ul.items").append(data.html);
+
+      $("ul.items").data("page", data.page);
+
+      if (data.count == 0)
+        container.find(".empty").show();
+      else if (data.count < 0)
+        container.find(".error").show();
+
+      onSearch(subscriptionType);
+    }).error(function() {
+      container.find(".loading").hide();
+      container.find(".error").show();
+    });
+  }
+
+  // can happen only once, for page 1, on initialization
+  function cachedSearch(subscriptionType) {
+    $("ul.items").data("page", 1);
+    onSearch(subscriptionType);
+  }
+
+  function onSearch(subscriptionType) {
+    <% if subscription %>
+      // if there's only one search, allow infinite scroll
+      $(document).off("scroll");
+      var count = $("ul.items li").size();
+      if (count > 0)
+        $(document).scroll(onScroll);
+    <% end %>
+  }
+
+  // set/re-set after a page of results come back
+  function onScroll() {
+    var ratio = $(document).scrollTop() / $(document).height();
+    if (ratio > 0.70) {
+      $(document).off("scroll"); // search function will re-assign the callback after it's done
+      var nextPage = $("ul.items").data("page") + 1;
+      search(currentSubscriptionType(), {page: nextPage});
+    }
+  }
+</script>
