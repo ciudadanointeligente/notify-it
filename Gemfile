@@ -40,7 +40,7 @@ group :development do
 #  gem 'wirb'
 #  gem 'paint'
 #  gem 'unicorn'
-	gem passenger
+	gem 'passenger'
 #  gem 'rblineprof'
 #  gem 'rack-lineprof'
 end
