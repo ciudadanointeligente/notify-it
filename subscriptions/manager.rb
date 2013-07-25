@@ -209,20 +209,20 @@ module Subscriptions
 
             response = ::Oj.load body, mode: :compat
 
-            total_pages = response['total_pages']
-            all_urls = []
-            all_bodies = []
+            #total_pages = response['total_pages']
+            #all_urls = []
+            #all_bodies = []
 
-            if total_pages > 1
-              for i in 2..total_pages
-                next_url = adapter.url_paginated(i, url)
-                all_urls.concat([next_url])
-                next_body = cache_for(next_url, :search, subscription.subscription_type)
-                all_bodies.concat([next_body])
-                next_response = ::Oj.load next_body, mode: :compat
-                response['bills'].concat(next_response['bills'])
-              end
-            end
+            #if total_pages > 1
+              #for i in 2..total_pages
+                #next_url = adapter.url_paginated(i, url)
+                #all_urls.concat([next_url])
+                #next_body = cache_for(next_url, :search, subscription.subscription_type)
+                #all_bodies.concat([next_body])
+                #next_response = ::Oj.load next_body, mode: :compat
+                #response['bills'].concat(next_response['bills'])
+              #end
+            #end
 
           # if the requestor does not want to hit the network, stop here
           elsif options[:cache_only]
@@ -252,12 +252,13 @@ module Subscriptions
 
             # wait for JSON parse, so as not to cache errors
             if (function == :search) and !Environment.config['no_cache']
-              for i in 0..(total_pages-1)
-              cache! all_url[i], :search, subscription.subscription_type, all_bodies[i]
-              puts "<url>"
-              puts all_url[i]
-              puts "</url>"
-              end
+              cache! url, :search, subscription.subscription_type, body
+              #for i in 0..(total_pages-1)
+              #cache! all_url[i], :search, subscription.subscription_type, all_bodies[i]
+              #puts "<url>"
+              #puts all_url[i]
+              #puts "</url>"
+              #end
             end
 
           end
