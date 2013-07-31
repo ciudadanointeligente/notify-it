@@ -1,5 +1,6 @@
 <hr style="margin-top: 30px"/>
 
 <p>
-  <a href="<%= email_url "/account/subscriptions" %>">Manage your subscriptions</a> on the web, or <a href="<%= email_url "/account/unsubscribe" %>">unsubscribe from all emails</a>.
+  	<%= email_remove("/interest/delete/", interest['_id'], interest['user_id']) %>
+    or <a href="<%= email_url "/account/unsubscribe" %>">from all notifications</a>.
 </p>

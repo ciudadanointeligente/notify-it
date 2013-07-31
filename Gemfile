@@ -5,6 +5,7 @@ gem 'multi_json'
 gem 'json'
 gem 'curb'
 gem 'excon'
+gem 'httparty'
 
 # avoids problems with YAML vulnerabilities, but no symbol keys
 gem 'safe_yaml'
@@ -39,7 +40,7 @@ gem 'big_sitemap'
 group :development do
 #  gem 'wirb'
 #  gem 'paint'
-   gem 'unicorn'
+	gem 'unicorn'
 #  gem 'passenger'
 #  gem 'rblineprof'
 #  gem 'rack-lineprof'

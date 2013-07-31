@@ -162,6 +162,7 @@ DEPENDENCIES
   excon
   feedbag
   feedzirra (= 0.2.0.rc1)
+  httparty
   json
   lucene_query_parser!
   mail (= 2.4.4)
