@@ -28,7 +28,7 @@ gem 'mail', '2.4.4'
 gem 'pony', '1.4'
 gem 'twilio-rb', '2.2.0'
 
-gem 'rack', '1.5.2'
+gem 'rack'
 gem 'rack-ssl'
 gem 'rake'
 
@@ -39,8 +39,8 @@ gem 'big_sitemap'
 group :development do
 #  gem 'wirb'
 #  gem 'paint'
-#  gem 'unicorn'
-	gem 'passenger'
+   gem 'unicorn'
+#  gem 'passenger'
 #  gem 'rblineprof'
 #  gem 'rack-lineprof'
 end

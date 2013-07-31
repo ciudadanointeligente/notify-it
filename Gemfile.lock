@@ -172,7 +172,7 @@ DEPENDENCIES
   phone!
   pony (= 1.4)
   postmark (= 0.9.10)
-  rack (= 1.5.2)
+  rack
   rack-ssl
   rake
   rinku
