@@ -287,6 +287,17 @@ module Helpers
       </h3>"
     end
 
+    def email_remove (url, bill_id, user_id)
+      url = [Environment.config['hostname'], url].join
+      url = [url, bill_id].join
+      url = [url, user_id].join('/')
+      
+      output = ["<a href=", url].join
+      output = [output, ">Unsubscribe from this notification</a>"].join
+
+      output
+    end
+
     def email_subheader_div(space = 5)
       "<div style=\"padding: 0; margin: 0; margin-top: #{space}px; color: #83858B; font-style: italic\">"
     end

@@ -16,8 +16,9 @@ module Deliveries
       successes = []
 
       email = user.email
-      footer = render_footer user
       from = from_for user
+      #COMMENTED
+      #footer = render_footer user
       reply_to = reply_to_for user
 
       conditions = {mechanism: "email", email_frequency: frequency}
@@ -29,6 +30,10 @@ module Deliveries
 
         interest_deliveries.each do |interest, deliveries|
           content = render_interest user, interest, deliveries
+          
+          #ADDED
+          footer = render_footer user, interest
+
           content << footer
 
           subject = render_subject interest, deliveries
@@ -56,10 +61,13 @@ module Deliveries
 
           interest_deliveries.each do |interest, deliveries|
             content << render_interest(user, interest, deliveries)
+            footer = render_footer user, interest
+            content << footer
           end
 
-          content = content.join interest_barrier
-          content << footer
+          # COMMENTED
+          # content = content.join interest_barrier
+          # content << footer
 
           subject = daily_subject_for matching_deliveries.size, user
 
@@ -115,10 +123,15 @@ module Deliveries
 
         interest_deliveries.each do |interest, deliveries|
           content << render_interest(user, interest, deliveries)
+
+          #ADDED
+          footer = render_footer user, interest
+          content << footer
         end
 
-        content = content.join interest_barrier
-        content << render_footer(user)
+        #COMMENTED
+        #content = content.join interest_barrier
+        #content << render_footer user
 
         # prepend custom header if present
         if options['header']
@@ -294,10 +307,10 @@ module Deliveries
       "#{prefix} - #{suffix}"
     end
 
-    def self.render_footer(user)
+    def self.render_footer(user, interest)
       context = Deliveries::SeenItemProxy.new # dummy to get helpers
       template = Tilt::ERBTemplate.new "app/views/footers/#{user.service || "general"}.erb"
-      rendered = template.render context, trim: false
+      rendered = template.render context, interest: interest, trim: false
       rendered.force_encoding "utf-8"
       rendered
     end

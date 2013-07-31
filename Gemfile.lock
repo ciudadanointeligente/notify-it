@@ -162,6 +162,7 @@ DEPENDENCIES
   excon
   feedbag
   feedzirra (= 0.2.0.rc1)
+  httparty
   json
   lucene_query_parser!
   mail (= 2.4.4)
@@ -172,7 +173,7 @@ DEPENDENCIES
   phone!
   pony (= 1.4)
   postmark (= 0.9.10)
-  rack (= 1.5.2)
+  rack
   rack-ssl
   rake
   rinku

@@ -6,13 +6,34 @@
 # QUESTION: what does it mean that interests are stored under current_user?
 # delete any interest, by ID (from the subscriptions management page)
 
-delete '/interest/:id/:email' do
 
-  present_user = User.find_by(email: params[:email])
+get '/interest/delete/:interest_id/:user_id' do
+
+  present_user = User.find_by(_id: params[:user_id])
   
   # check that it exists
   if (present_user &&
-    interest = present_user.interests.find(params[:id]))
+    interest = present_user.interests.find(params[:interest_id]))
+    interest.destroy
+
+    # handles all the ERROR CODE
+    halt 200
+  else
+    halt 404 # NOT FOUND: hence, it does not exist
+  end
+
+  render template: ENV['hostname']
+
+end
+
+
+delete '/interest/:interest_id/:user_id' do
+
+  present_user = User.find_by(_id: params[:user_id])
+  
+  # check that it exists
+  if (present_user &&
+    interest = present_user.interests.find(params[:interest_id]))
     interest.destroy
 
     # handles all the ERROR CODE
