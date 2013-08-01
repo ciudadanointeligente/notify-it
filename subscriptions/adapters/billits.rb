@@ -20,6 +20,7 @@ module Subscriptions
 
         url = "#{endpoint}/bills/search.json?"
         url << "q=#{CGI.escape query}"
+       
 
         #if function == :check
           #url << "&posted_at__gte=#{1.month.ago.strftime "%Y-%m-%d"}"

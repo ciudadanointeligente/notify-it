@@ -113,6 +113,8 @@
 
 <script type="text/javascript">
 
+  var user_id = "<%= h current_user._id %>";
+
   $(function() {
 
     // toggle the remove button to show when the checkbox is clicked
@@ -127,7 +129,7 @@
 
       container.find(".indicators span").hide();
       container.find(".indicators .spinning").show();
-      $.post("/interest/" + interest_id, {_method: "delete"}, function(data) {
+      $.post("/interest/" + interest_id + "/" + user_id, {_method: "delete"}, function(data) {
         Utils.log("Deleted interest " + interest_id);
         container.remove();
       }).error(function() {

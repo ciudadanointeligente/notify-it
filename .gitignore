@@ -8,6 +8,7 @@
 /.bundle
 /public/sitemap
 /public/assets/*/*.gz
+/config/cron/*
 
 /tmp
 /REVISION
