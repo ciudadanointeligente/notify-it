@@ -57,6 +57,7 @@
 
   var item_type = "<%= h item_type %>";
   var item_id = "<%= h item_id %>";
+  var user = "<%= h current_user.email %>";
 
   var inline = <%= content.present? ? "true" : "false" %>;
 
@@ -97,7 +98,7 @@
   function follow() {
     Button.showFollowing();
 
-    $.post("/item/" + item_type + "/" + item_id + "/follow", function(data) {
+    $.post("/item/" + item_type + "/" + item_id + "/" + user + "/follow", function(data) {
       Utils.log("Followed " + item_type + " " + item_id + ".");
     }).error(function() {
       Utils.log("ERROR following item.");
@@ -108,7 +109,7 @@
   function unfollow() {
     Button.showFollow();
 
-    $.post("/item/" + item_type + "/" + item_id + "/unfollow", {_method: "delete"}, function(data) {
+    $.post("/item/" + item_type + "/" + item_id + "/" + user + "/unfollow", {_method: "delete"}, function(data) {
       Utils.log("Unfollowed " + item_type + " " + item_id + ".");
     }).error(function() {
       Utils.log("ERROR unfollowing item.");

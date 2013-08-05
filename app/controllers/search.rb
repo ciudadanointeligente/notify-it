@@ -41,15 +41,6 @@ get '/search/:subscription_type/:query/?:query_type?' do
   }
 end
 
-
-
-
-
-
-
-
-
-
 # This is to actually display the search results
 # The actual searching appears to be within the subscriptions (ALL)
 # They then appear in results
@@ -104,11 +95,55 @@ end
 
 
 
+post '/interests/search' do
+  requires_login
 
+  query = stripped_query
 
+  interest = search_interest_for_on_website query, params[:search_type]
+  halt 200 and return unless interest.new_record?
 
+  if interest.save
+    interest_pane = partial "search/related_interests", :engine => :erb, :locals => {
+      related_interests: related_interests(interest),
+      current_interest: interest,
+      interest_in: interest.in
+    }
 
+    json 200, {
+      interest_pane: interest_pane
+    }
+  else
+    json 500, {
+      errors: {
+        interest: interest.errors.full_messages,
+        subscription: (interest.subscriptions.any? ? interest.subscriptions.first.errors.full_messages : nil)
+      }
+    }
+  end
+end
 
+delete '/interests/search' do
+  requires_login
+
+  query = stripped_query
+  search_type = params[:search_type]
+
+  interest = search_interest_for_on_website query, params[:search_type]
+  halt 404 and return false if interest.new_record?
+
+  interest.destroy
+
+  interest_pane = partial "search/related_interests", :engine => :erb, :locals => {
+    related_interests: related_interests(interest),
+    current_interest: nil,
+    interest_in: interest.in
+  }
+
+  json 200, {
+    interest_pane: interest_pane
+  }
+end
 
 
 # this is the actual form submission
@@ -176,11 +211,13 @@ delete '/interests/search/:search_type/:query/:query_type/:email' do
 
 end
 
-
-
 # functions used above
 
 helpers do
+
+  def search_interest_for_on_website(query, search_type)
+    Interest.for_search current_user, search_type, query, query_type, params[search_type]
+  end
 
   def search_interest_for(query, search_type)
     present_user = User.find_by(email: params[:email])
