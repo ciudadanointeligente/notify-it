@@ -19,7 +19,7 @@ module Subscriptions
         endpoint = "http://billit.ciudadanointeligente.org"
 
         url = "#{endpoint}/bills/search.json?"
-        url << "#{query}"
+        url << "q=#{query}"
        
 
         #if function == :check

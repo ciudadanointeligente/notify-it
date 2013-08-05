@@ -13,7 +13,7 @@ get '/search/:subscription_type/:query/?:query_type?' do
   halt 404 and return unless (search_types + ["all"]).include?(params[:subscription_type])
 
   # strips the query (stripped query is defined below)
-  query = stripped_query
+  query = search_stripped_query
   
   # Q: the whole search becomes an interest in case you'd like to ADD it
   # search_interest_for is a function that takes in a query and a search_type
@@ -46,7 +46,7 @@ end
 # They then appear in results
 
 get '/fetch/search/:subscription_type/:query/?:query_type?' do
-  query = stripped_query
+  query = search_stripped_query
   subscription_type = params[:subscription_type]
 
   # make a fake interest, it may not be the one that's really generating this search request
@@ -239,16 +239,21 @@ helpers do
   # get the query out of the words
   def stripped_query
 
-    query = ""
     i_query = Hash.new
     i_query['q'] = params[:q] ? URI.decode(params[:q]).strip : nil
+    literal_query = i_query['q']
+
+    if literal_query.present? then query = "#{literal_query}"
+    else query = ""
+    end
+
     i_query['bill_id'] = params[:bill_id] ? URI.decode(params[:bill_id]).strip : nil
     i_query['stage'] = params[:stage] ? URI.decode(params[:stage]).strip : nil
     i_query['creation_date_min'] = params[:creation_date_min] ? URI.decode(params[:creation_date_min]).strip : nil
     i_query['creation_date_max'] = params[:creation_date_max] ? URI.decode(params[:creation_date_max]).strip : nil
     i_query['origin_chamber'] = params[:origin_chamber] ? URI.decode(params[:origin_chamber]).strip : nil
 
-  for i in ['q', 'bill_id', 'stage', 'creation_date_min', 'creation_date_max', 'origin_chamber'] do
+  for i in ['bill_id', 'stage', 'creation_date_min', 'creation_date_max', 'origin_chamber'] do
     # don't allow plain wildcards
     if i_query[i].present?
       j = i_query[i]
@@ -271,6 +276,30 @@ helpers do
 
     puts query
     query
+  end
+
+  def search_stripped_query
+
+    puts "<query_desc>"
+    puts params[:query]
+    puts "</query_desc>"
+
+    query = params[:query] ? URI.decode(params[:query]).strip : nil
+
+    # don't allow plain wildcards
+    query = query.gsub /^[^\w]*\*[^\w]*$/, ''
+
+    if query_type == "simple"
+      query = query.tr "\"", ""
+    elsif query_type == "advanced"
+      query = query.tr ",:", ""
+    end
+
+    halt 404 unless query.present?
+    halt 404 if query.size > 300 # sanity
+
+    query
+
   end
 
 end
