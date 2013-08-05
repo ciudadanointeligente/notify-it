@@ -147,7 +147,7 @@ end
 # this is the actual form submission
 # posting in the search box
 
-post '/interests/search/:search_type/:query/:query_type/:email' do
+post '/interests/search/:email' do
 
   if !(User.find_by(email: params[:email])) then
     user = User.new email: params[:email]
@@ -186,7 +186,7 @@ end
 
 # this is to remove a search interest
 # again, another form action if REMOVE alert is pressed
-delete '/interests/search/:search_type/:query/:query_type/:email' do
+delete '/interests/search/:email' do
 
   query = stripped_query
   search_type = params[:search_type]
@@ -239,24 +239,37 @@ helpers do
   # get the query out of the words
   def stripped_query
 
-    puts "<query_desc>"
-    puts params
-    puts "</query_desc>"
+    query = ""
+    i_query = Hash.new
+    i_query['q'] = params[:q] ? URI.decode(params[:q]).strip : nil
+    i_query['bill_id'] = params[:bill_id] ? URI.decode(params[:bill_id]).strip : nil
+    i_query['stage'] = params[:stage] ? URI.decode(params[:stage]).strip : nil
+    i_query['creation_date_min'] = params[:creation_date_min] ? URI.decode(params[:creation_date_min]).strip : nil
+    i_query['creation_date_max'] = params[:creation_date_max] ? URI.decode(params[:creation_date_max]).strip : nil
+    i_query['origin_chamber'] = params[:origin_chamber] ? URI.decode(params[:origin_chamber]).strip : nil
 
-    query = params[:query] ? URI.decode(params[:query]).strip : nil
-
+  for i in ['q', 'bill_id', 'stage', 'creation_date_min', 'creation_date_max', 'origin_chamber'] do
     # don't allow plain wildcards
-    query = query.gsub /^[^\w]*\*[^\w]*$/, ''
+    if i_query[i].present?
+      j = i_query[i]
+      j = j.gsub /^[^\w]*\*[^\w]*$/, ''
 
     if query_type == "simple"
-      query = query.tr "\"", ""
+      j = j.tr "\"", ""
     elsif query_type == "advanced"
-      query = query.tr ",:", ""
+      j = j.tr ",:", ""
     end
+
+    j = CGI.escape j
+
+    query << "&#{i}=#{j}"
+    end
+  end
 
     halt 404 unless query.present?
     halt 404 if query.size > 300 # sanity
 
+    puts query
     query
   end
 

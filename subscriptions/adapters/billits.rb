@@ -19,7 +19,7 @@ module Subscriptions
         endpoint = "http://billit.ciudadanointeligente.org"
 
         url = "#{endpoint}/bills/search.json?"
-        url << "q=#{CGI.escape query}"
+        url << "#{query}"
        
 
         #if function == :check
@@ -58,7 +58,8 @@ module Subscriptions
         
         endpoint = "http://billit.ciudadanointeligente.org"
         url = "#{endpoint}/bills/search.json?"
-        url << "title=educacion" # WILL HAVE TO GET RID OF THIS LATER
+        
+        # url << "title=educacion" # WILL HAVE TO GET RID OF THIS LATER
         
         # I NEED A URL FOR ALL
         #if options[:since] == "all"
