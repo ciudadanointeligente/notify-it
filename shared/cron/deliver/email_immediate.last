@@ -1,40 +1,43 @@
-Non US-ASCII detected and no charset defined.
-Defaulting to UTF-8, set your own if this is incorrect.
 <time>
-2013-07-31 17:07:50 -0400
+2013-08-01 14:16:35 +0000
 </time>
 <time>
-2013-07-31 17:07:50 -0400
+2013-08-01 14:16:35 +0000
 </time>
 Asset syncing disabled, using local assets.
 <users>
-#<User:0x00000100edefd0>
+#<User:0x000000056c8ec8>
 </users>
 
 --------------------------------
 [User Alert][Pony] Delivered to andrea.lvs@hotmail.com: 
 
-= Subject: Bill: Establece la Ley General de Educación. - 1 urgency
+= Subject: educacion - 1 BillIt Report
 
 <div style="margin: 0; padding: 0; margin-top: 5px; margin-bottom: 25px; font-size: 150%">
         <span style="color: #111">
-          Bill: Establece la Ley General de Educación.
+          educacion
         </span>
       </div><div style="margin: 0; padding: 0; margin-top: 5px; margin-bottom: 5px; font-size: 125%">
         <span style="color: #666;">
-          Urgencies
+          Billit reports
         </span>
       </div>
 <h3 style="padding: 0; margin: 0; margin-top: 20px; ">
-        <a href="http://localhost:8080/url?d%5Binterest_type%5D=item&d%5Bitem_id%5D=51f97c1b81dae4801b000002-urgency-1375259400&d%5Bsubscription_type%5D=billits_urgencies&d%5Burl_type%5D=item&from=email&to=http%3A%2F%2Flocalhost%3A8080%2Fitem%2Fbillit%2F4970-04">
-          Jul 31, 2013
+        <a href="http://localhost:8080/url?d%5Binterest_type%5D=search&d%5Bitem_id%5D=4907-04&d%5Bquery%5D=educacion&d%5Bsubscription_type%5D=billits&d%5Burl_type%5D=item&from=email&to=http%3A%2F%2Flocalhost%3A8080%2Fitem%2Fbillit%2F4907-04%2Fbill-educacion-derechos-humanos-agua">
+          educacion derechos humanos agua
         </a>
       </h3>
-<p style="padding: 0; margin: 0; margin-top: 10px">  testtesttest
+<div style="padding: 0; margin: 0; margin-top: 5px; color: #83858B; font-style: italic">  <span class="date">
+    Jul 31, 2013
+  </span>
+</div>
+
+<p style="padding: 0; margin: 0; margin-top: 10px">  sin urgencia
 </p><hr style="margin-top: 30px"/>
 
 <p>
-  	<a href=http://localhost:8080/interest/delete/51f9671c75dcbec429000192/51dc6da975dcbec795000001>Unsubscribe from this notification</a>
+  	<a href=http://localhost:8080/interest/delete/51f7d0f081dae43991000001/51f1938a81dae49674000001>Unsubscribe from this notification</a>
     or <a href="http://localhost:8080/url?&from=email&to=http%3A%2F%2Flocalhost%3A8080%2Faccount%2Funsubscribe">from all notifications</a>.
 </p>
 --------------------------------
@@ -48,8 +51,8 @@ Asset syncing disabled, using local assets.
 = Subject: [ADMIN] Sent 1 notifications
 
 [andrea.lvs@hotmail.com][email][immediate] 1 notifications
-	Establece la Ley General de Educación.  - 1 things
-		billits_urgencies (1)
+	educacion - 1 things
+		billits (1)
 
 --------------------------------
 
