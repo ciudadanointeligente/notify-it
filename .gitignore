@@ -10,8 +10,6 @@
 /public/assets/*/*.gz
 /config/cron/*
 /shared/cron/*
-/shared/cron/check/billits.last
-/shared/cron/delivery/email_immediate.last
 
 /tmp
 /REVISION

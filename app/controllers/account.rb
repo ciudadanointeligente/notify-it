@@ -1,7 +1,3 @@
-# BASIC ACCOUNT INFORMATION AND DISPLAYING BASIC PAGES OF WEBSITE
-
-
-
 # displays the subscriptions view in the account folder
 # passes the following variables (taken from other files)
 # when it goes to THAT url it displays THAT view

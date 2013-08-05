@@ -93,8 +93,6 @@ get '/fetch/search/:subscription_type/:query/?:query_type?' do
   }.to_json
 end
 
-
-
 post '/interests/search' do
   requires_login
 
