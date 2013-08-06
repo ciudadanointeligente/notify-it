@@ -18,7 +18,11 @@ get '/search/:subscription_type/:query/?:query_type?' do
   # Q: the whole search becomes an interest in case you'd like to ADD it
   # search_interest_for is a function that takes in a query and a search_type
   # is this to check if you've already listed it as an interest?
-  interest = search_interest_for query, params[:subscription_type]
+  interest = search_interest_for_on_website query, params[:subscription_type]
+
+  puts "<interest_status>"
+  puts interest.new_record?
+  puts "<interest_status>"
 
   # if this is a new interest then it returns all existing subscriptions
   subscriptions = Interest.subscriptions_for interest
@@ -50,7 +54,7 @@ get '/fetch/search/:subscription_type/:query/?:query_type?' do
   subscription_type = params[:subscription_type]
 
   # make a fake interest, it may not be the one that's really generating this search request
-  interest = search_interest_for query, params[:subscription_type]
+  interest = search_interest_for_on_website query, params[:subscription_type]
   subscription = Interest.subscriptions_for(interest).first
 
   page = params[:page].present? ? params[:page].to_i : 1
@@ -96,7 +100,7 @@ end
 post '/interests/search' do
   requires_login
 
-  query = stripped_query
+  query = search_stripped_query
 
   interest = search_interest_for_on_website query, params[:search_type]
   halt 200 and return unless interest.new_record?
