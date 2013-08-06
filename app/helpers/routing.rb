@@ -41,6 +41,10 @@ module Helpers
       end
     end
 
+    def search_name_parse(query)
+      query.split(/& */)
+    end
+
     def interest_description(interest)
       description = if interest.search?
         if interest.search_type == "all"
