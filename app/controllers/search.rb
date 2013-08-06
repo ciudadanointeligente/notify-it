@@ -257,7 +257,7 @@ helpers do
     i_query['creation_date_max'] = params[:creation_date_max] ? URI.decode(params[:creation_date_max]).strip : nil
     i_query['chamber'] = params[:origin_chamber] ? URI.decode(params[:origin_chamber]).strip : nil
 
-  for i in ['bill_id', 'stage', 'creation_date_min', 'creation_date_max', 'origin_chamber'] do
+  for i in ['bill_id', 'stage', 'creation_date_min', 'creation_date_max', 'chamber'] do
     # don't allow plain wildcards
     if i_query[i].present?
       j = i_query[i]
