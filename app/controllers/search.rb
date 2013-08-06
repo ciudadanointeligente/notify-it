@@ -261,6 +261,8 @@ helpers do
     # don't allow plain wildcards
     if i_query[i].present?
       j = i_query[i]
+      j = j.gsub('/', '-')
+      j = j.gsub /^[^\w]*\*[^\w]*$/, ''
 
     if query_type == "simple"
       j = j.tr "\"", ""
@@ -283,10 +285,6 @@ helpers do
 
   def search_stripped_query
 
-    puts "<query_desc>"
-    puts params[:query]
-    puts "</query_desc>"
-
     query = params[:query] ? URI.decode(params[:query]).strip : nil
 
     # don't allow plain wildcards
@@ -300,6 +298,10 @@ helpers do
 
     halt 404 unless query.present?
     halt 404 if query.size > 300 # sanity
+
+    puts "<query_desc>"
+    puts params[:query]
+    puts "</query_desc>"
 
     query
 
