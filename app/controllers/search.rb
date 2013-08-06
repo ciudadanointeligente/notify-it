@@ -154,7 +154,7 @@ end
 post '/interests/search/:email' do
 
   if !(User.find_by(email: params[:email])) then
-    user = User.new email: params[:email]
+    user = User.new(email: params[:email], confirmed: true)
     user.save!
   end
 
