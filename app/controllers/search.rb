@@ -261,7 +261,6 @@ helpers do
     # don't allow plain wildcards
     if i_query[i].present?
       j = i_query[i]
-      j = j.gsub /^[^\w]*\*[^\w]*$/, ''
 
     if query_type == "simple"
       j = j.tr "\"", ""
