@@ -31,7 +31,7 @@ module Helpers
       elsif interest.feed?
         interest.data['title']
       elsif interest.search?
-        interest.in
+        search_name_parse(interest.in)
       elsif interest.tag?
         if (name = user_name(interest.tag_user)).present?
           "#{name} &mdash; #{interest.tag.name.capitalize}"
@@ -41,13 +41,13 @@ module Helpers
       end
     end
 
-    #def search_name_parse(query)
-      #query_final = "Search: "
-      #query_prettier = query.gsub('=', ': ')
-      #query_prettier = query_prettier.split(/& */)
-      #query_final << query_prettier.to_s
-      #query_final
-    #end
+    def search_name_parse(query)
+      query_final = "Search: "
+      query_prettier = query.gsub('=', ': ')
+      query_prettier = query_prettier.split(/& */)
+      query_final << query_prettier.to_s
+      query_final
+    end
 
     def interest_description(interest)
       description = if interest.search?
