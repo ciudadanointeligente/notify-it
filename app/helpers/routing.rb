@@ -49,6 +49,14 @@ module Helpers
       query_final
     end
 
+    def query_name(query)
+      query_final = "Search: "
+      query_prettier = query.gsub('=', ': ')
+      query_prettier = query_prettier.split(/& */)
+      query_final << query_prettier.to_s
+      query_final
+    end
+
     def interest_description(interest)
       description = if interest.search?
         if interest.search_type == "all"
